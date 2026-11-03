@@ -1,0 +1,32 @@
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #ffffff;
+    color: #1e293b;
+}
+
+/* Glassmorphism subtle effects */
+.glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Custom Soft Shadow */
+.soft-shadow {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+.soft-shadow-hover {
+    transition: all 0.3s ease;
+}
+.soft-shadow-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 35px -10px rgba(0, 0, 0, 0.09);
+}
+
+/* Modal backdrop Blur */
+.modal-backdrop {
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(6px);
+}

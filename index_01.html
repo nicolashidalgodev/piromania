@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piromanía - Talleres Artísticos & Expresión Creativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        gp: {
+                            pink: '#E3A4B8',
+                            pinkLight: '#FCE1F2',
+                            sage: '#7FCAB9',
+                            sageLight: '#D1FAE5',
+                            mint: '#A4E3CF',
+                            yellow: '#F9D55B',
+                            yellowLight: '#FEF08A',
+                            lavender: '#D5A7D2',
+                            lavenderLight: '#F3E8FF',
+                        },
+                        neutralBg: {
+                            50: '#FFFFFF',
+                            100: '#F8FAFC',
+                            200: '#F1F5F9',
+                            300: '#E2E8F0',
+                            400: '#CBD5E1',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #ffffff;
+            color: #1e293b;
+        }
+
+        /* Glassmorphism subtle effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* Custom Soft Shadow */
+        .soft-shadow {
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .soft-shadow-hover {
+            transition: all 0.3s ease;
+        }
+        .soft-shadow-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 35px -10px rgba(0, 0, 0, 0.09);
+        }
+
+        /* Modal backdrop Blur */
+        .modal-backdrop {
+            background-color: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(6px);
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased selection:bg-gp-pinkLight selection:text-slate-900">
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Brand -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="relative w-11 h-11 flex items-center justify-center">
+                        <!-- Custom SVG Emblem: Splatter + Bomb Paintbrush + Flame accent -->
+                        <svg viewBox="0 0 100 100" class="w-full h-full transform group-hover:rotate-6 transition-transform duration-300">
+                            <!-- Black/Charcoal Splatter Base -->
+                            <path d="M50 10 C62 8, 70 18, 78 15 C85 22, 92 32, 88 45 C95 58, 88 72, 80 80 C68 90, 52 92, 38 88 C25 85, 12 76, 10 60 C8 45, 18 35, 22 25 C28 12, 38 12, 50 10 Z" fill="#1E293B" />
+                            <!-- Yellow Paint Accent -->
+                            <path d="M25 30 Q35 15 45 35 Q55 55 35 65 Z" fill="#F9D55B" />
+                            <!-- Mint/Sage Accent Splatter -->
+                            <circle cx="75" cy="30" r="6" fill="#7FCAB9" />
+                            <circle cx="82" cy="65" r="4" fill="#E3A4B8" />
+                            <!-- Paintbrush Bomb (Magenta / Pink Brush tip + Fuse) -->
+                            <circle cx="50" cy="52" r="18" fill="#D5A7D2" />
+                            <path d="M50 34 L50 24 Q50 18 58 18" stroke="#F9D55B" stroke-width="3" fill="none" stroke-linecap="round" />
+                            <!-- Spark at the fuse -->
+                            <path d="M58 18 L62 14 M58 18 L62 20 M58 18 L55 12" stroke="#E3A4B8" stroke-width="2.5" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight text-slate-900 block leading-none">PIROMANÍA</span>
+                        <span class="text-xs font-semibold tracking-wider text-slate-500 uppercase">Talleres Artísticos</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                    <a href="#talleres" class="hover:text-slate-900 transition-colors">Talleres</a>
+                    <a href="#docentes" class="hover:text-slate-900 transition-colors">Docentes</a>
+                    <a href="#calendario" class="hover:text-slate-900 transition-colors">Calendario</a>
+                    <a href="#galeria" class="hover:text-slate-900 transition-colors">Galería</a>
+                    <a href="#contacto" class="hover:text-slate-900 transition-colors">Contacto</a>
+                </nav>
+
+                <!-- CTA Button Desktop -->
+                <div class="hidden md:flex items-center gap-3">
+                    <button onclick="openModal('Taller General')" class="px-5 py-2.5 rounded-full bg-gp-pink hover:bg-[#d891a7] text-slate-900 font-bold text-sm shadow-sm hover:shadow transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-amber-900"></i>
+                        Inscribirme
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-700 hover:text-slate-900 focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-50 border-b border-slate-200 px-4 pt-3 pb-6 space-y-3">
+            <a href="#talleres" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 hover:text-slate-900">Talleres</a>
+            <a href="#docentes" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 hover:text-slate-900">Docentes</a>
+            <a href="#calendario" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 hover:text-slate-900">Calendario</a>
+            <a href="#galeria" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 hover:text-slate-900">Galería</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-slate-700 hover:text-slate-900">Contacto</a>
+            <button onclick="openModal('Taller General'); toggleMobileMenu();" class="w-full mt-3 px-5 py-3 rounded-xl bg-gp-pink text-slate-900 font-bold text-center flex items-center justify-center gap-2">
+                <i class="fa-solid fa-fire text-amber-900"></i>
+                Inscribirme
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative py-16 md:py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden">
+        <!-- Subtle Pastel Ambient Blobs -->
+        <div class="absolute top-10 left-10 w-72 h-72 bg-gp-pinkLight/60 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+        <div class="absolute top-40 right-10 w-96 h-96 bg-gp-sageLight/70 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+        <div class="absolute bottom-10 left-1/3 w-80 h-80 bg-gp-yellowLight/60 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Hero Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    
+                    <!-- Pastel Badge -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gp-lavenderLight border border-gp-lavender/40 text-slate-800 text-xs font-bold tracking-wide uppercase">
+                        <span class="w-2 h-2 rounded-full bg-gp-lavender"></span>
+                        Espacio Creativo en Santiago
+                    </div>
+
+                    <!-- Headline -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        Despierta tu <br class="hidden sm:inline" />
+                        <span class="relative inline-block px-2">
+                            <span class="absolute inset-0 bg-gp-yellowLight -rotate-1 rounded-lg -z-10"></span>
+                            Fuego Creador
+                        </span>
+                        con Arte Práctico
+                    </h1>
+
+                    <!-- Description -->
+                    <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Explora la creación física de FX, escultura de personajes, utilería cinematográfica e ilustración.
+                        Aprende con artistas profesionales en un ambiente cálido, equipado y altamente especializado.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#talleres" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-slate-900 text-white font-bold hover:bg-slate-800 transition-all shadow-md text-center">
+                            Explorar Talleres
+                        </a>
+                        <a href="#calendario" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gp-sageLight hover:bg-gp-sage/40 text-slate-800 font-bold border border-gp-sage/30 transition-all text-center flex items-center justify-center gap-2">
+                            <i class="fa-regular fa-calendar text-teal-700"></i>
+                            Ver Horarios 2026
+                        </a>
+                    </div>
+
+                    <!-- Key Value Highlights Grid -->
+                    <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-200 max-w-lg mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left">
+                            <div class="text-xl font-extrabold text-slate-900">100%</div>
+                            <div class="text-xs text-slate-500 font-medium">Práctico</div>
+                        </div>
+                        <div class="text-center lg:text-left border-x border-slate-200 px-2">
+                            <div class="text-xl font-extrabold text-slate-900">Incluidos</div>
+                            <div class="text-xs text-slate-500 font-medium">Todos los Materiales</div>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <div class="text-xl font-extrabold text-slate-900">Máx 8</div>
+                            <div class="text-xs text-slate-500 font-medium">Alumnos por Taller</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Hero Banner Showcase Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        
+                        <!-- Main Card image stack -->
+                        <div class="relative bg-white p-3 rounded-3xl border border-slate-200 soft-shadow">
+                            <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Escultura y Taller de Arte" 
+                                 class="w-full h-80 sm:h-96 object-cover rounded-2xl">
+                            
+                            <!-- Floating Tag 1 -->
+                            <div class="absolute -bottom-5 -left-5 bg-white p-4 rounded-2xl border border-slate-200 shadow-xl flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gp-pinkLight flex items-center justify-center text-gp-pink">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                                </div>
+                                <div>
+                                    <div class="text-xs text-slate-400 font-semibold uppercase">Ambiente</div>
+                                    <div class="text-sm font-bold text-slate-800">100% Expresivo</div>
+                                </div>
+                            </div>
+
+                            <!-- Floating Tag 2 -->
+                            <div class="absolute -top-4 -right-4 bg-gp-yellowLight border border-amber-200 px-4 py-2 rounded-full shadow-md flex items-center gap-2 text-xs font-bold text-slate-800">
+                                <i class="fa-solid fa-star text-amber-600"></i>
+                                Cupos Limitados
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Workshops Section -->
+    <section id="talleres" class="py-20 bg-slate-50 border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="px-3 py-1 rounded-full bg-gp-sageLight text-emerald-800 text-xs font-bold uppercase tracking-wider">
+                    Catálogo Académico
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">Nuestros Talleres Artísticos</h2>
+                <p class="text-slate-600">
+                    Aprende técnicas profesionales desde cero o perfecciona tu oficio. Diseñados para que completes proyectos reales.
+                </p>
+
+                <!-- Filter Category Buttons -->
+                <div class="flex flex-wrap justify-center gap-2 mt-8" id="filterContainer">
+                    <button onclick="filterWorkshops('all')" class="filter-btn active px-4 py-2 rounded-full text-xs font-bold transition-all bg-slate-900 text-white shadow-sm" data-cat="all">
+                        Todos
+                    </button>
+                    <button onclick="filterWorkshops('fx')" class="filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-cat="fx">
+                        FX & Caracterización
+                    </button>
+                    <button onclick="filterWorkshops('escultura')" class="filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-cat="escultura">
+                        Escultura & Props
+                    </button>
+                    <button onclick="filterWorkshops('ilustracion')" class="filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-cat="ilustracion">
+                        Ilustración & Pintura
+                    </button>
+                    <button onclick="filterWorkshops('mascaras')" class="filter-btn px-4 py-2 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200" data-cat="mascaras">
+                        Máscaras & Moldes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Workshop Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="workshopsGrid">
+
+                <!-- Card 1: Caracterización & FX -->
+                <div class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="fx">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" alt="FX Prótesis" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-gp-pink text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">
+                            FX & Caracterización
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
+                                <span><i class="fa-regular fa-clock mr-1"></i> 4 Sesiones (16 hrs)</span>
+                                <span class="text-emerald-700 font-bold">Cupos: 3 libres</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Maquillaje FX & Prótesis de Silicona</h3>
+                            <p class="text-slate-600 text-sm mb-4">
+                                Aprende modelado en plastilina profesional, creación de moldes de resina y vaciado de heridas y quemaduras hiperrealistas.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-medium">Inversión Total</span>
+                                <span class="text-lg font-extrabold text-slate-900">$140.000 CLP</span>
+                            </div>
+                            <button onclick="openModal('Maquillaje FX & Prótesis')" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs transition-colors">
+                                Inscribirse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Escultura & Character Design -->
+                <div class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="escultura">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80" alt="Escultura de Personajes" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-gp-yellow text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">
+                            Escultura & Props
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
+                                <span><i class="fa-regular fa-clock mr-1"></i> 6 Sesiones (24 hrs)</span>
+                                <span class="text-emerald-700 font-bold">Cupos: 2 libres</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Escultura Tradicional de Personajes</h3>
+                            <p class="text-slate-600 text-sm mb-4">
+                                Estructuras de alambre, volumetría en Monster Clay, textura de piel y acabados profesionales para estatuillas coleccionables.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-medium">Inversión Total</span>
+                                <span class="text-lg font-extrabold text-slate-900">$165.000 CLP</span>
+                            </div>
+                            <button onclick="openModal('Escultura Tradicional')" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs transition-colors">
+                                Inscribirse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Ilustración Tradicional -->
+                <div class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="ilustracion">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80" alt="Ilustración Fantástica" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-gp-lavender text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">
+                            Ilustración & Pintura
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
+                                <span><i class="fa-regular fa-clock mr-1"></i> 4 Sesiones (12 hrs)</span>
+                                <span class="text-emerald-700 font-bold">Cupos: 4 libres</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Tinta & Acuarela Fantástica</h3>
+                            <p class="text-slate-600 text-sm mb-4">
+                                Explora conceptos de luz, sombra, aguadas y tramados en tinta china para crear ilustraciones atmosféricas de alto impacto.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-medium">Inversión Total</span>
+                                <span class="text-lg font-extrabold text-slate-900">$110.000 CLP</span>
+                            </div>
+                            <button onclick="openModal('Tinta & Acuarela Fantástica')" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs transition-colors">
+                                Inscribirse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Máscaras de Látex -->
+                <div class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="mascaras">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80" alt="Máscaras de Látex" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-gp-mint text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">
+                            Máscaras & Moldes
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
+                                <span><i class="fa-regular fa-clock mr-1"></i> 5 Sesiones (20 hrs)</span>
+                                <span class="text-emerald-700 font-bold">Cupos: 2 libres</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Creación de Máscaras en Látex</h3>
+                            <p class="text-slate-600 text-sm mb-4">
+                                Proceso integral: Modelado de cabeza completa, molde matriz de yeso, colado de látex y pintado aerografiado.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-medium">Inversión Total</span>
+                                <span class="text-lg font-extrabold text-slate-900">$155.000 CLP</span>
+                            </div>
+                            <button onclick="openModal('Máscaras de Látex')" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs transition-colors">
+                                Inscribirse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: Props & Armas Cosplay -->
+                <div class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="escultura">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80" alt="Construcción de Props" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-gp-yellow text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">
+                            Escultura & Props
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
+                                <span><i class="fa-regular fa-clock mr-1"></i> 4 Sesiones (16 hrs)</span>
+                                <span class="text-emerald-700 font-bold">Cupos: 5 libres</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Utilería & Props en EVA Foam</h3>
+                            <p class="text-slate-600 text-sm mb-4">
+                                Corte, biselado, termoformado de goma EVA de alta densidad, texturizado y pintura metalizada envejecida.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-medium">Inversión Total</span>
+                                <span class="text-lg font-extrabold text-slate-900">$125.000 CLP</span>
+                            </div>
+                            <button onclick="openModal('Utilería en EVA Foam')" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs transition-colors">
+                                Inscribirse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6: Moldes de Silicona -->
+                <div class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="mascaras">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" alt="Moldes de Silicona" class="w-full h-full object-cover">
+                        <span class="absolute top-4 left-4 bg-gp-mint text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">
+                            Máscaras & Moldes
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
+                                <span><i class="fa-regular fa-clock mr-1"></i> 3 Sesiones (12 hrs)</span>
+                                <span class="text-emerald-700 font-bold">Cupos: 3 libres</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Moldes de Silicona & Copias de Resina</h3>
+                            <p class="text-slate-600 text-sm mb-4">
+                                Domina la confección de moldes en dos partes, técnicas de desgasificado y vaciado en resina poliuretánica.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-xs text-slate-400 block font-medium">Inversión Total</span>
+                                <span class="text-lg font-extrabold text-slate-900">$130.000 CLP</span>
+                            </div>
+                            <button onclick="openModal('Moldes de Silicona')" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs transition-colors">
+                                Inscribirse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Instructors Section -->
+    <section id="docentes" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="px-3 py-1 rounded-full bg-gp-pinkLight text-pink-900 text-xs font-bold uppercase tracking-wider">
+                    Equipo Docente
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">Guiado por Especialistas</h2>
+                <p class="text-slate-600">
+                    Artistas activos en la industria del cine, teatro y artes figurativas apasionados por enseñar.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Instructor 1 -->
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 text-center soft-shadow-hover">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gp-pinkLight">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80" alt="Ignacia Valenzuela" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">Ignacia Valenzuela</h3>
+                    <p class="text-xs font-bold text-gp-pink uppercase tracking-wide mt-1 mb-3">Especialista FX & Caracterización</p>
+                    <p class="text-slate-600 text-sm mb-6">
+                        +8 años trabajando en producciones audiovisuales y obras teatrales. Graduada de Bellas Artes con posgrado en prótesis.
+                    </p>
+                    <div class="flex justify-center gap-3 text-slate-400">
+                        <a href="#" class="hover:text-slate-900 transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="#" class="hover:text-slate-900 transition-colors"><i class="fa-brands fa-artstation text-lg"></i></a>
+                    </div>
+                </div>
+
+                <!-- Instructor 2 -->
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 text-center soft-shadow-hover">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gp-sageLight">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80" alt="Matías Toledo" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">Matías Toledo</h3>
+                    <p class="text-xs font-bold text-teal-700 uppercase tracking-wide mt-1 mb-3">Escultor Tradicional & Prop Maker</p>
+                    <p class="text-slate-600 text-sm mb-6">
+                        Modelador de criaturas y fabricante de props para cine independiente. Experto en Monster Clay, resinas y moldes matrices.
+                    </p>
+                    <div class="flex justify-center gap-3 text-slate-400">
+                        <a href="#" class="hover:text-slate-900 transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="#" class="hover:text-slate-900 transition-colors"><i class="fa-brands fa-behance text-lg"></i></a>
+                    </div>
+                </div>
+
+                <!-- Instructor 3 -->
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 text-center soft-shadow-hover">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden border-4 border-gp-lavenderLight">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=500&q=80" alt="Camila Sotomayor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">Camila Sotomayor</h3>
+                    <p class="text-xs font-bold text-purple-700 uppercase tracking-wide mt-1 mb-3">Ilustradora & Pintora</p>
+                    <p class="text-slate-600 text-sm mb-6">
+                        Ilustradora editorial y conceptual con foco en acuarela, tinta y narrativa visual para libros y videojuegos.
+                    </p>
+                    <div class="flex justify-center gap-3 text-slate-400">
+                        <a href="#" class="hover:text-slate-900 transition-colors"><i class="fa-brands fa-instagram text-lg"></i></a>
+                        <a href="#" class="hover:text-slate-900 transition-colors"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendar & Dates Section -->
+    <section id="calendario" class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-5 space-y-4">
+                    <span class="px-3 py-1 rounded-full bg-gp-yellowLight text-amber-900 text-xs font-bold uppercase tracking-wider">
+                        Próximos Inicios
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Calendario de Clases 2026</h2>
+                    <p class="text-slate-600">
+                        Los cupos se reservan rápidamente debido a que trabajamos con máximo 8 personas por grupo para garantizar enseñanza personalizada.
+                    </p>
+                    <div class="p-4 bg-white rounded-2xl border border-slate-200 text-sm text-slate-700 flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-gp-sage text-lg mt-0.5"></i>
+                        <span>Todos los materiales de la primera sesión están 100% garantizados con tu inscripción.</span>
+                    </div>
+                </div>
+
+                <!-- Schedule List -->
+                <div class="lg:col-span-7 space-y-4">
+                    
+                    <!-- Date item 1 -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 soft-shadow-hover">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gp-pinkLight text-slate-900 flex flex-col items-center justify-center font-extrabold leading-tight">
+                                <span class="text-xs uppercase font-semibold text-slate-600">NOV</span>
+                                <span class="text-xl">07</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Maquillaje FX & Prótesis</h4>
+                                <p class="text-xs text-slate-500">Sábados: 10:00 - 14:00 hrs</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end gap-4">
+                            <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">3 Cupos</span>
+                            <button onclick="openModal('Maquillaje FX - Nov 07')" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-colors">
+                                Reservar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Date item 2 -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 soft-shadow-hover">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gp-sageLight text-slate-900 flex flex-col items-center justify-center font-extrabold leading-tight">
+                                <span class="text-xs uppercase font-semibold text-slate-600">NOV</span>
+                                <span class="text-xl">12</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Escultura Tradicional</h4>
+                                <p class="text-xs text-slate-500">Jueves: 18:30 - 21:30 hrs</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end gap-4">
+                            <span class="px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold">Último Cupo</span>
+                            <button onclick="openModal('Escultura - Nov 12')" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-colors">
+                                Reservar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Date item 3 -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 soft-shadow-hover">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gp-lavenderLight text-slate-900 flex flex-col items-center justify-center font-extrabold leading-tight">
+                                <span class="text-xs uppercase font-semibold text-slate-600">NOV</span>
+                                <span class="text-xl">21</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Creación de Máscaras Látex</h4>
+                                <p class="text-xs text-slate-500">Sábados: 15:00 - 19:00 hrs</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end gap-4">
+                            <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">4 Cupos</span>
+                            <button onclick="openModal('Máscaras - Nov 21')" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-colors">
+                                Reservar
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Work Gallery -->
+    <section id="galeria" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="px-3 py-1 rounded-full bg-gp-mint text-teal-900 text-xs font-bold uppercase tracking-wider">
+                    Resultados Reales
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">Trabajo de Nuestros Alumnos</h2>
+                <p class="text-slate-600">
+                    Proyectos finalizados durante nuestros talleres sin necesidad de experiencia previa.
+                </p>
+            </div>
+
+            <!-- Gallery Masonry/Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
+                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
+                        Pintura & Texturas
+                    </div>
+                </div>
+
+                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
+                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
+                        Escultura de Busto
+                    </div>
+                </div>
+
+                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
+                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
+                        Acuarela Conceptual
+                    </div>
+                </div>
+
+                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
+                    <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
+                        Detalle Prótesis FX
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="py-20 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12">
+                
+                <!-- Info Column -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-gp-pinkLight text-pink-900 text-xs font-bold uppercase tracking-wider">
+                            Ubicación & Consultas
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Escríbenos o Visítanos</h2>
+                    </div>
+                    <p class="text-slate-600">
+                        ¿Tienes dudas sobre los materiales, formas de pago en cuotas o nivel requerido? Contáctanos directamente.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Taller Piromanía</h4>
+                                <p class="text-xs text-slate-500">Barrio Italia, Providencia, Santiago - Chile</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Correo Electrónico</h4>
+                                <p class="text-xs text-slate-500">contacto@piromaniatalleres.cl</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-900">Instagram</h4>
+                                <p class="text-xs text-slate-500">@piromania_talleres</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form Card -->
+                <div class="lg:col-span-7">
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)" class="bg-white p-8 rounded-3xl border border-slate-200 soft-shadow space-y-4">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Mensaje Directo</h3>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre</label>
+                                <input type="text" required placeholder="Tu nombre" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email</label>
+                                <input type="email" required placeholder="tu@email.com" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Asunto</label>
+                            <input type="text" required placeholder="Consulta sobre talleres..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mensaje</label>
+                            <textarea rows="4" required placeholder="Escribe tu mensaje aquí..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-colors">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row justify-between items-center gap-6">
+            
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-gp-pink flex items-center justify-center text-slate-900 font-extrabold text-xs">
+                    P
+                </div>
+                <span class="text-white font-bold text-base">Piromanía - Talleres Artísticos</span>
+            </div>
+
+            <p class="text-xs text-slate-500">
+                &copy; 2026 Piromanía. Todos los derechos reservados. Santiago, Chile.
+            </p>
+
+            <div class="flex gap-4 text-slate-400 text-lg">
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Interactive Registration Modal -->
+    <div id="registrationModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 modal-backdrop" onclick="closeModal()"></div>
+
+        <!-- Modal Content Container -->
+        <div class="relative bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 animate-fade-in">
+            
+            <!-- Modal Header -->
+            <div class="bg-slate-50 px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+                <div>
+                    <span class="text-xs font-bold text-gp-pink uppercase tracking-wider block">Ficha de Pre-Inscripción</span>
+                    <h3 class="text-lg font-extrabold text-slate-900" id="modalWorkshopTitle">Inscripción a Taller</h3>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-200/60 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body / Form -->
+            <form id="modalForm" onsubmit="handleRegistrationSubmit(event)" class="p-6 space-y-4">
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre Completo</label>
+                    <input type="text" required placeholder="Ej: Camila Silva" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-pink">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">RUT / DNI</label>
+                        <input type="text" required placeholder="12.345.678-9" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-pink">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Teléfono</label>
+                        <input type="tel" required placeholder="+56 9 1234 5678" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-pink">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Correo Electrónico</label>
+                    <input type="email" required placeholder="tu@correo.com" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-pink">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Taller Seleccionado</label>
+                    <select id="modalWorkshopSelect" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-pink font-medium">
+                        <option value="Maquillaje FX & Prótesis">Maquillaje FX & Prótesis de Silicona</option>
+                        <option value="Escultura Tradicional">Escultura Tradicional de Personajes</option>
+                        <option value="Tinta & Acuarela Fantástica">Tinta & Acuarela Fantástica</option>
+                        <option value="Máscaras de Látex">Creación de Máscaras en Látex</option>
+                        <option value="Utilería en EVA Foam">Utilería & Props en EVA Foam</option>
+                        <option value="Moldes de Silicona">Moldes de Silicona & Copias</option>
+                    </select>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-gp-pink hover:bg-[#d891a7] text-slate-900 font-extrabold text-sm shadow-md transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Confirmar Pre-Inscripción
+                    </button>
+                </div>
+            </form>
+
+            <!-- Success Alert Message (Hidden initially) -->
+            <div id="modalSuccess" class="hidden p-8 text-center space-y-4">
+                <div class="w-16 h-16 mx-auto bg-gp-sageLight rounded-full flex items-center justify-center text-teal-800 text-2xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-slate-900">¡Inscripción Recibida!</h3>
+                <p class="text-slate-600 text-sm">
+                    Hemos registrado tu solicitud. Te enviaremos un correo con los datos de transferencia y las instrucciones para el primer día de clase.
+                </p>
+                <button onclick="closeModal()" class="px-6 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold">
+                    Cerrar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        }
+
+        // Workshop Category Filtering Logic
+        function filterWorkshops(category) {
+            const cards = document.querySelectorAll('.workshop-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Update active state on filter buttons
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-cat') === category) {
+                    btn.classList.add('bg-slate-900', 'text-white');
+                    btn.classList.remove('bg-white', 'text-slate-700');
+                } else {
+                    btn.classList.remove('bg-slate-900', 'text-white');
+                    btn.classList.add('bg-white', 'text-slate-700');
+                }
+            });
+
+            // Filter cards
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'all' || cardCat === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Registration Modal Controller
+        const modal = document.getElementById('registrationModal');
+        const modalTitle = document.getElementById('modalWorkshopTitle');
+        const modalSelect = document.getElementById('modalWorkshopSelect');
+        const modalForm = document.getElementById('modalForm');
+        const modalSuccess = document.getElementById('modalSuccess');
+
+        function openModal(workshopName) {
+            if (workshopName) {
+                modalTitle.textContent = workshopName;
+                // Preselect matching option if exists
+                for (let option of modalSelect.options) {
+                    if (workshopName.includes(option.value)) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+            }
+            modalForm.classList.remove('hidden');
+            modalSuccess.classList.add('hidden');
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        function handleRegistrationSubmit(event) {
+            event.preventDefault();
+            modalForm.classList.add('hidden');
+            modalSuccess.classList.remove('hidden');
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('contactForm');
+            form.reset();
+            
+            // Custom subtle floating toast message
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 bg-slate-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl z-50 text-sm font-bold flex items-center gap-2';
+            toast.innerHTML = '<i class="fa-solid fa-circle-check text-gp-sage"></i> ¡Mensaje enviado con éxito!';
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3500);
+        }
+    </script>
+</body>
+</html>

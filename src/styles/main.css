@@ -1,6 +1,30 @@
+@import "font-awesome/css/font-awesome.min.css";
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
+
+html {
+    scroll-behavior: smooth;
+}
+
+section[id] {
+    scroll-margin-top: 5rem;
+}
+
+i.fa {
+    font-size: 1.2em;
+}
+
+i.fa.text-lg {
+    font-size: 1.35rem;
+}
+
+i.fa.text-2xl {
+    font-size: 1.8rem;
+}
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans Variable', sans-serif;
     background-color: #ffffff;
     color: #1e293b;
 }

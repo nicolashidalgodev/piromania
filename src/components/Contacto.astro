@@ -1,45 +1,278 @@
 
+---
+import { CONTENT } from "../data/content";
+const key = import.meta.env.PUBLIC_FORM_ACCESS_KEY;
+---
+
 <section id="contacto" class="py-20 bg-white border-t border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12">
         <div class="lg:col-span-5 space-y-5">
-            <span class="px-3 py-1 rounded-full bg-gp-pinkLight text-pink-900 text-xs font-bold uppercase tracking-wider">Contacto</span>
-            <h2 class="mt-6 text-3xl sm:text-4xl font-extrabold text-slate-900">¿Tienes dudas o consultas?</h2>
-            <p class="text-slate-600">Escríbenos para recibir el programa detallado de cada taller, verificar disponibilidad de cupos o consultar por clases personalizadas.</p>
+            <span class="px-3 py-1 rounded-full bg-gp-pinkLight text-pink-900 text-xs font-bold uppercase tracking-wider">{CONTENT.contacto.etiqueta}</span>
+            <h2 class="mt-6 text-3xl sm:text-4xl font-extrabold text-slate-900">{CONTENT.contacto.titulo}</h2>
+            <p class="text-slate-600">{CONTENT.contacto.subtitulo}</p>
             <div class="space-y-4 pt-2 text-sm">
-                <p class="flex items-center gap-3"><i class="fa fa-map-marker w-5 text-pink-700"></i> Santiago, Chile</p>
-                <p class="flex items-center gap-3"><i class="fa fa-envelope w-5 text-pink-700"></i><a href="mailto:natcarrasco@ug.uchile.cl" class="hover:underline">natcarrasco@ug.uchile.cl</a></p>
-                <p class="flex items-center gap-3"><i class="fa fa-instagram w-5 text-pink-700"></i><a href="https://www.instagram.com/piromania.cl/" target="_blank" rel="noopener noreferrer" class="hover:underline">@piromania.cl</a></p>
+                <p class="flex items-center gap-3"><i class="fa fa-map-marker w-5 text-pink-700"></i> {CONTENT.contacto.ubicacion}</p>
+                <p class="flex items-center gap-3"><i class="fa fa-envelope w-5 text-pink-700"></i><a href={`mailto:${CONTENT.contacto.correo}`} class="hover:underline">{CONTENT.contacto.correo}</a></p>
+                <p class="flex items-center gap-3"><i class="fa fa-instagram w-5 text-pink-700"></i><a href={CONTENT.contacto.instagram.url} target="_blank" rel="noopener noreferrer" class="hover:underline">{CONTENT.contacto.instagram.usuario}</a></p>
             </div>
         </div>
         <div class="lg:col-span-7">
-            <form id="contactForm" class="bg-slate-50 p-8 rounded-3xl border border-slate-200 soft-shadow space-y-4">
-                <h3 class="text-xl font-bold text-slate-900">Escríbenos</h3>
+            <form
+                action="https://api.web3forms.com/submit"
+                method="POST"
+                id="contactForm"
+                class="contact-form bg-slate-50 p-8 rounded-3xl border border-slate-200 soft-shadow"
+                data-astro-reload
+                novalidate
+            >
+                <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
+                <input
+                    type="hidden"
+                    name="access_key"
+                    value={key}
+                />
+                <h3 class="text-xl font-bold text-slate-900">{CONTENT.contacto.formulario.titulo}</h3>
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="contactName" class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre completo</label>
-                        <input id="contactName" name="name" type="text" required placeholder="Tu nombre" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                        <label for={CONTENT.contacto.formulario.campoNombre.id} class="block text-xs font-bold text-slate-700 uppercase mb-1">{CONTENT.contacto.formulario.campoNombre.etiqueta}</label>
+                        <input id={CONTENT.contacto.formulario.campoNombre.id} name={CONTENT.contacto.formulario.campoNombre.name} type="text" maxlength="50" required placeholder={CONTENT.contacto.formulario.campoNombre.placeholder} aria-describedby="name-empty-feedback" class="contact-form__control w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                        <div id="name-empty-feedback" class="empty-feedback text-red-700 text-sm mt-1">
+                            Por favor ingresa tu nombre.
+                        </div>
                     </div>
                     <div>
-                        <label for="contactEmail" class="block text-xs font-bold text-slate-700 uppercase mb-1">Correo electrónico</label>
-                        <input id="contactEmail" name="email" type="email" required placeholder="tu@email.com" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                        <label for={CONTENT.contacto.formulario.campoCorreo.id} class="block text-xs font-bold text-slate-700 uppercase mb-1">{CONTENT.contacto.formulario.campoCorreo.etiqueta}</label>
+                        <input id={CONTENT.contacto.formulario.campoCorreo.id} name={CONTENT.contacto.formulario.campoCorreo.name} type="email" maxlength="50" required placeholder={CONTENT.contacto.formulario.campoCorreo.placeholder} aria-describedby="email-empty-feedback email-invalid-feedback" class="contact-form__control w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                        <div id="email-empty-feedback" class="empty-feedback text-red-700 text-sm mt-1">
+                            Por favor ingresa tu dirección de email.
+                        </div>
+                        <div id="email-invalid-feedback" class="invalid-feedback text-red-700 text-sm mt-1">
+                            Por favor ingresa una dirección de email válida.
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <label for="workshopInterest" class="block text-xs font-bold text-slate-700 uppercase mb-1">Taller de interés</label>
-                    <select id="workshopInterest" name="workshop" required class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
-                        <option value="">Selecciona un taller</option>
-                        <option>Operación Juegos Diana</option>
-                        <option>Vocal Gym Juvenil</option>
-                        <option>Vocal Gym Adulto</option>
-                        <option>Clases personalizadas</option>
+                    <label for={CONTENT.contacto.formulario.campoTaller.id} class="block text-xs font-bold text-slate-700 uppercase mb-1">{CONTENT.contacto.formulario.campoTaller.etiqueta}</label>
+                    <select id={CONTENT.contacto.formulario.campoTaller.id} name={CONTENT.contacto.formulario.campoTaller.name} required aria-describedby="workshop-empty-feedback" required class="contact-form__control w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage">
+                        <option value="">{CONTENT.contacto.formulario.campoTaller.placeholder}</option>
+                        {CONTENT.contacto.formulario.campoTaller.opciones.map((opcion) => <option>{opcion}</option>)}
                     </select>
+                    <div id="workshop-empty-feedback" class="empty-feedback text-red-700 text-sm mt-1">
+                        Por favor selecciona un taller.
+                    </div>
                 </div>
                 <div>
-                    <label for="contactMessage" class="block text-xs font-bold text-slate-700 uppercase mb-1">Mensaje / consulta</label>
-                    <textarea id="contactMessage" name="message" rows="4" required placeholder="Cuéntanos en qué podemos ayudarte..." class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage"></textarea>
+                    <label for={CONTENT.contacto.formulario.campoMensaje.id} class="block text-xs font-bold text-slate-700 uppercase mb-1">{CONTENT.contacto.formulario.campoMensaje.etiqueta}</label>
+                    <textarea id={CONTENT.contacto.formulario.campoMensaje.id} name={CONTENT.contacto.formulario.campoMensaje.name} rows="4" maxlength="200" required placeholder={CONTENT.contacto.formulario.campoMensaje.placeholder} aria-describedby="message-character-count message-empty-feedback" class="contact-form__control contact-form__message w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-gp-sage"></textarea>
+                    <p
+                        id="message-character-count"
+                        class="contact-form__count"
+                        aria-live="polite"
+                        aria-atomic="true"
+                    >0/200</p>
+                    <div id="message-empty-feedback" class="empty-feedback text-red-700 text-sm mt-1">
+                        Por favor ingresa tu mensaje.
+                    </div>
                 </div>
-                <button type="submit" class="w-full py-3.5 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800">Enviar mensaje</button>
+                <button
+                    id="submit-button"
+                    disabled
+                    type="submit"
+                    class="contact-form__submit w-full py-3.5 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800"
+                >
+                    {CONTENT.contacto.formulario.botonEnviar}
+                </button>
+
+                <div
+                    id="result"
+                    class="mt-4 hidden rounded-lg border px-4 py-3 text-left text-sm font-medium shadow-lg"
+                    role="status"
+                    aria-live="polite"
+                >
+                </div>
             </form>
         </div>
     </div>
 </section>
+
+<style>
+  .contact-form {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 52rem;
+  }
+
+  .contact-form__control {
+    display: block;
+    width: 100%;
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .contact-form__control::placeholder {
+    color: #94a3b8;
+  }
+
+  .contact-form__message {
+    min-height: 9rem;
+    resize: vertical;
+  }
+
+  .contact-form__count {
+    margin-top: 0.5rem;
+    text-align: right;
+    color: rgba(148, 163, 184, 0.65);
+    font-size: 0.75rem;
+  }
+
+  .invalid-feedback,
+  .empty-feedback {
+    display: none;
+  }
+
+  [data-touched]:placeholder-shown:invalid ~ .empty-feedback {
+    display: block;
+  }
+
+  [data-touched]:not(:placeholder-shown):invalid ~ .invalid-feedback {
+    display: block;
+  }
+
+  select[data-touched]:invalid ~ .empty-feedback {
+    display: block;
+  }
+
+  .contact-form__control[data-touched]:invalid {
+    border-color: #dc3545;
+  }
+
+  .contact-form__submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+</style>
+<script is:inline>
+  (() => {
+    const form = document.getElementById("contactForm");
+    const submitButton = document.getElementById("submit-button");
+    const result = document.getElementById("result");
+    const message = document.getElementById("message");
+    const characterCount = document.getElementById("message-character-count");
+
+    if (
+      !(form instanceof HTMLFormElement) ||
+      !(submitButton instanceof HTMLButtonElement) ||
+      !(result instanceof HTMLDivElement) ||
+      !(message instanceof HTMLTextAreaElement) ||
+      !(characterCount instanceof HTMLParagraphElement)
+    ) {
+      console.error("No se pudo inicializar la validación del formulario de contacto.");
+      return;
+    }
+
+    let resultTimeout;
+    const controls = form.querySelectorAll("input[required], select[required], textarea[required]");
+
+    const updateCharacterCount = () => {
+      characterCount.textContent = `${message.value.length}/${message.maxLength}`;
+    };
+
+    const updateSubmitButton = () => {
+      submitButton.disabled = !form.checkValidity();
+    };
+
+    const markTouched = (event) => {
+      if (
+        event.target instanceof HTMLElement &&
+        Array.from(controls).includes(event.target)
+      ) {
+        event.target.setAttribute("data-touched", "");
+      }
+    };
+
+    form.addEventListener("input", (event) => {
+      markTouched(event);
+      updateSubmitButton();
+    });
+    form.addEventListener("change", (event) => {
+      markTouched(event);
+      updateSubmitButton();
+    });
+    form.addEventListener("focusout", markTouched);
+    message.addEventListener("input", updateCharacterCount);
+    updateCharacterCount();
+    updateSubmitButton();
+
+    const showResult = (type, text) => {
+      const styles = {
+        sending: "border-sky-400/40 bg-sky-500/10 text-sky-800",
+        success: "border-green-400/40 bg-green-500/10 text-green-800",
+        error: "border-red-400/40 bg-red-500/10 text-red-800",
+      };
+
+      clearTimeout(resultTimeout);
+      submitButton.classList.add("hidden");
+      result.classList.remove("hidden");
+      result.className = `mt-4 rounded-lg border px-4 py-3 text-left text-sm font-medium shadow-lg ${styles[type]}`;
+      result.textContent = text;
+      result.setAttribute("role", type === "error" ? "alert" : "status");
+      result.setAttribute("aria-live", type === "error" ? "assertive" : "polite");
+    };
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      controls.forEach((control) => control.setAttribute("data-touched", ""));
+
+      if (!form.checkValidity()) {
+        updateSubmitButton();
+        form.querySelector(":invalid")?.focus();
+        return;
+      }
+
+      const formData = new FormData(form);
+      const json = JSON.stringify(Object.fromEntries(formData));
+      showResult("sending", "Enviando tu mensaje...");
+
+      fetch(form.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: json,
+      })
+        .then(async (response) => {
+          const responseData = await response.json();
+          if (response.ok && responseData.success) {
+            showResult(
+              "success",
+              "¡Mensaje enviado correctamente! Gracias por contactarme.",
+            );
+            form.reset();
+            controls.forEach((control) => control.removeAttribute("data-touched"));
+            updateCharacterCount();
+            updateSubmitButton();
+          } else {
+            showResult(
+              "error",
+              "No se pudo enviar el mensaje. Inténtalo nuevamente.",
+            );
+          }
+        })
+        .catch(() => {
+          showResult(
+            "error",
+            "Ocurrió un error al enviar el mensaje. Inténtalo nuevamente.",
+          );
+        })
+        .finally(() => {
+          resultTimeout = setTimeout(() => {
+            result.classList.add("hidden");
+            submitButton.classList.remove("hidden");
+          }, 5000);
+        });
+    });
+  })();
+</script>

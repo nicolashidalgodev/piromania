@@ -1,34 +1,27 @@
-
+---
+import { CONTENT } from "../data/content";
+import PiromaniaLogo from "./PiromaniaLogo.astro";
+---
 
 <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
             <a href="#inicio" class="flex items-center gap-3 group">
                 <div class="relative w-11 h-11 flex items-center justify-center">
-                    <svg viewBox="0 0 100 100" class="w-full h-full transform group-hover:rotate-6 transition-transform duration-300" role="img" aria-label="Emblema Piromanía">
-                        <path d="M50 10 C62 8, 70 18, 78 15 C85 22, 92 32, 88 45 C95 58, 88 72, 80 80 C68 90, 52 92, 38 88 C25 85, 12 76, 10 60 C8 45, 18 35, 22 25 C28 12, 38 12, 50 10 Z" fill="#1E293B" />
-                        <path d="M25 30 Q35 15 45 35 Q55 55 35 65 Z" fill="#F9D55B" />
-                        <circle cx="75" cy="30" r="6" fill="#7FCAB9" />
-                        <circle cx="82" cy="65" r="4" fill="#E3A4B8" />
-                        <circle cx="50" cy="52" r="18" fill="#D5A7D2" />
-                        <path d="M50 34 L50 24 Q50 18 58 18" stroke="#F9D55B" stroke-width="3" fill="none" stroke-linecap="round" />
-                        <path d="M58 18 L62 14 M58 18 L62 20 M58 18 L55 12" stroke="#E3A4B8" stroke-width="2.5" stroke-linecap="round" />
-                    </svg>
+                    <PiromaniaLogo />
                 </div>
                 <span>
-                    <span class="text-xl font-extrabold tracking-tight text-slate-900 block leading-none">PIROMANÍA</span>
-                    <span class="text-xs font-semibold tracking-wider text-slate-500 uppercase">Talleres Artísticos</span>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900 block leading-none">{CONTENT.encabezado.marca.nombre}</span>
+                    <span class="text-xs font-semibold tracking-wider text-slate-500 uppercase">{CONTENT.encabezado.marca.subtitulo}</span>
                 </span>
             </a>
             <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600" aria-label="Navegación principal">
-                <a href="#inicio" class="hover:text-slate-900">Inicio</a>
-                <a href="#talleres" class="hover:text-slate-900">Talleres</a>
-                <a href="#calendario" class="hover:text-slate-900">Calendario</a>
-                <a href="#sobre-mi" class="hover:text-slate-900">Sobre mí</a>
-                <a href="#contacto" class="hover:text-slate-900">Contacto</a>
+                {CONTENT.encabezado.navegacion.map((item) => (
+                    <a href={item.destino} class="hover:text-slate-900">{item.etiqueta}</a>
+                ))}
             </nav>
-            <a href="#talleres" class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gp-pink hover:bg-[#d891a7] text-slate-900 font-bold text-sm">
-                <i class="fa fa-fire"></i> Inscribirme
+            <a href={CONTENT.encabezado.accionPrincipal.destino} class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gp-pink hover:bg-[#d891a7] text-slate-900 font-bold text-sm">
+                <i class="fa fa-fire"></i> {CONTENT.encabezado.accionPrincipal.etiqueta}
             </a>
             <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-700" aria-label="Abrir menú">
                 <i class="fa fa-bars text-2xl"></i>
@@ -36,10 +29,8 @@
         </div>
     </div>
     <nav id="mobileMenu" class="hidden md:hidden bg-slate-50 border-b border-slate-200 px-4 pt-3 pb-6 space-y-3" aria-label="Navegación móvil">
-        <a href="#inicio" data-mobile-menu-link class="block py-2 font-semibold text-slate-700">Inicio</a>
-        <a href="#talleres" data-mobile-menu-link class="block py-2 font-semibold text-slate-700">Talleres</a>
-        <a href="#calendario" data-mobile-menu-link class="block py-2 font-semibold text-slate-700">Calendario</a>
-        <a href="#sobre-mi" data-mobile-menu-link class="block py-2 font-semibold text-slate-700">Sobre mí</a>
-        <a href="#contacto" data-mobile-menu-link class="block py-2 font-semibold text-slate-700">Contacto</a>
+        {CONTENT.encabezado.navegacion.map((item) => (
+            <a href={item.destino} data-mobile-menu-link class="block py-2 font-semibold text-slate-700">{item.etiqueta}</a>
+        ))}
     </nav>
 </header>

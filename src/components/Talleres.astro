@@ -1,200 +1,147 @@
+---
+import { CONTENT } from "../data/content";
+
+const talleres = CONTENT.talleres.listado;
+const claveCategoria = (categoria: string) =>
+	categoria === "Escultura" ? "escultura" : "vocal";
+const estiloCategoria = (categoria: string) =>
+	categoria === "Escultura"
+		? "bg-gp-yellow text-slate-900"
+		: "bg-gp-pink text-slate-900";
+---
 
 <section id="talleres" class="py-20 bg-slate-50 border-y border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-12">
-            <span class="px-3 py-1 rounded-full bg-gp-sageLight text-emerald-800 text-xs font-bold uppercase tracking-wider">Catálogo de talleres</span>
-            <h2 class="mt-6 text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">Explora, aprende y crea</h2>
-            <p class="text-slate-600">Experiencias prácticas para descubrir nuevas herramientas artísticas, sin necesidad de experiencia previa.</p>
+            <span class="px-3 py-1 rounded-full bg-gp-sageLight text-emerald-800 text-xs font-bold uppercase tracking-wider">{CONTENT.talleres.encabezado.etiqueta}</span>
+            <h2 class="mt-6 text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">{CONTENT.talleres.encabezado.titulo}</h2>
+            <p class="text-slate-600">{CONTENT.talleres.encabezado.descripcion}</p>
             <div class="flex flex-wrap justify-center gap-2 mt-8" id="filterContainer">
-                <button type="button" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-slate-900 text-white" data-filter-category="all">Todos</button>
-                <button type="button" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-700 border border-slate-200" data-filter-category="escultura">Escultura</button>
-                <button type="button" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-slate-700 border border-slate-200" data-filter-category="vocal">Entrenamiento vocal</button>
+                {CONTENT.talleres.filtros.map((filtro, index) => (
+                    <button
+                        type="button"
+                        class={`filter-btn px-4 py-2 rounded-full text-xs font-bold ${index === 0 ? "bg-slate-900 text-white" : "bg-white text-slate-700 border border-slate-200"}`}
+                        data-filter-category={filtro === "Todos" ? "all" : claveCategoria(filtro)}
+                    >
+                        {filtro}
+                    </button>
+                ))}
             </div>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="workshopsGrid">
-            <article class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="escultura" data-modal-title="Operación Juegos Diana: Falsificación modular y escultura en papel maché">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="/taller-diana.jpg" alt="Taller de creación de los Juegos Diana" class="w-full h-full object-cover object-[center_15%]">
-                    <span class="absolute top-4 left-4 bg-gp-yellow text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">Escultura</span>
-                </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
-                        <span><i class="fa fa-clock-o mr-1"></i> 2 sesiones</span>
-                        <span class="text-emerald-700 font-bold">10 cupos</span>
+            {talleres.map((taller) => (
+                <article
+                    class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col"
+                    data-category={claveCategoria(taller.categoria)}
+                    data-modal-title={taller.nombre}
+                >
+                    <div class="relative h-56 overflow-hidden">
+                        <img src={taller.presentacion.imagen.src} alt={taller.presentacion.imagen.alt} class="w-full h-full object-cover object-[center_15%]">
+                        <span class={`absolute top-4 left-4 text-xs font-bold px-3 py-1 rounded-full shadow ${estiloCategoria(taller.categoria)}`}>
+                            {taller.categoria}
+                        </span>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Operación Juegos Diana</h3>
-                    <p class="text-slate-600 text-sm mb-4">Una experiencia práctica e inmersiva de creación plástica y escultura en gran formato: un equipo colaborativo fabricará una réplica a escala de una icónica figura de los Juegos Diana.</p>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                        <span class="text-sm font-extrabold text-slate-900">$0 CLP</span>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
+                            <span><i class="fa fa-clock-o mr-1"></i> {taller.presentacion.duracion}</span>
+                            <span class="text-emerald-700 font-bold">
+                                {taller.cupos} cupos
+                                {"publicoBreve" in taller.presentacion && ` · ${taller.presentacion.publicoBreve}`}
+                            </span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">{taller.presentacion.titulo}</h3>
+                        <p class="text-slate-600 text-sm mb-4">{taller.presentacion.descripcion}</p>
+                        <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                            <span class="text-sm font-extrabold text-slate-900">{taller.presentacion.inversion}</span>
                             <div class="flex flex-wrap justify-end gap-2">
-                                <button type="button" data-workshop-details="details-operacion" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs">Ver detalles</button>
-                                <a href="https://docs.google.com/forms/d/1YSTCj4w-20MuDShk1ExXzEXa8g82HX5VKeIn5T2O96Q/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">Inscribirme</a>
+                                <button
+                                    type="button"
+                                    data-workshop-details={taller.detalleId}
+                                    class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs"
+                                >
+                                    Ver detalles
+                                </button>
+                                <a
+                                    href={taller.detalles.inscripcion.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs"
+                                >
+                                    Inscribirme
+                                </a>
                             </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="vocal" data-modal-title="Vocal Gym: Entrenamiento para Voz y Canto (Juvenil) — Diciembre">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="/taller-vocal.jpg" alt="Participantes en un taller de entrenamiento vocal" class="w-full h-full object-cover object-[center_15%]">
-                    <span class="absolute top-4 left-4 bg-gp-pink text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">Entrenamiento vocal</span>
-                </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
-                        <span><i class="fa fa-clock-o mr-1"></i> 90 minutos</span>
-                        <span class="text-emerald-700 font-bold">15 cupos · 13–17 años</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Vocal Gym: Voz y Canto</h3>
-                    <p class="text-slate-600 text-sm mb-4">Masterclass de 90 minutos para probar una rutina de trabajo corporal y vocal, y aprender a entrenar la voz de forma saludable, sin tensiones y con proyección.</p>
-                    <p class="text-slate-500 text-xs mb-3">Dirigido a jóvenes de 13 a 17 años.</p>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                        <span class="text-sm font-extrabold text-slate-900">$11.000 CLP</span>
-                        <div class="flex flex-wrap justify-end gap-2">
-                            <button type="button" data-workshop-details="details-vocal-diciembre" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs">Ver detalles</button>
-                            <a href="https://www.portaldisc.com/evento/masterclasstjc2027juvenil" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">Inscribirme</a>
                         </div>
                     </div>
-                </div>
-            </article>
-
-            <article class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="vocal" data-modal-title="Vocal Gym: Entrenamiento para Voz y Canto (Adulto)">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="/taller-vocal.jpg" alt="Participantes en un taller de entrenamiento vocal" class="w-full h-full object-cover object-[center_15%]">
-                    <span class="absolute top-4 left-4 bg-gp-pink text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">Entrenamiento vocal</span>
-                </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
-                        <span><i class="fa fa-clock-o mr-1"></i> 90 minutos</span>
-                        <span class="text-emerald-700 font-bold">15 cupos · Adulto</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Vocal Gym: Voz y Canto</h3>
-                    <p class="text-slate-600 text-sm mb-4">Masterclass de 90 minutos para probar una rutina de trabajo corporal y vocal, y aprender a entrenar la voz de forma saludable, sin tensiones y con proyección.</p>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                        <span class="text-sm font-extrabold text-slate-900">$11.000 CLP</span>
-                        <div class="flex flex-wrap justify-end gap-2">
-                            <button type="button" data-workshop-details="details-vocal-adulto" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs">Ver detalles</button>
-                            <a href="https://www.portaldisc.com/evento/masterclasstjc2027adulto" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">Inscribirme</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <article class="workshop-card bg-white rounded-3xl border border-slate-200 overflow-hidden soft-shadow-hover flex flex-col" data-category="vocal" data-modal-title="Vocal Gym: Entrenamiento para Voz y Canto (Juvenil) — Enero 2027">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="/taller-vocal.jpg" alt="Participantes en un taller de entrenamiento vocal" class="w-full h-full object-cover object-[center_15%]">
-                    <span class="absolute top-4 left-4 bg-gp-pink text-slate-900 text-xs font-bold px-3 py-1 rounded-full shadow">Entrenamiento vocal</span>
-                </div>
-                <div class="p-6 flex-1 flex flex-col">
-                    <div class="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
-                        <span><i class="fa fa-clock-o mr-1"></i> 90 minutos</span>
-                        <span class="text-emerald-700 font-bold">15 cupos · 13–17 años</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Vocal Gym: Voz y Canto (Juvenil)</h3>
-                    <p class="text-slate-600 text-sm mb-4">Masterclass de 90 minutos para probar una rutina de trabajo corporal y vocal, y aprender a entrenar la voz de forma saludable, sin tensiones y con proyección.</p>
-                    <p class="text-slate-500 text-xs mb-3">Dirigido a jóvenes de 13 a 17 años.</p>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                        <span class="text-sm font-extrabold text-slate-900">$11.000 CLP</span>
-                        <div class="flex flex-wrap justify-end gap-2">
-                            <button type="button" data-workshop-details="details-vocal-enero" class="px-4 py-2 rounded-xl bg-gp-sageLight hover:bg-gp-sage/40 text-emerald-900 font-bold text-xs">Ver detalles</button>
-                            <a href="https://www.portaldisc.com/evento/masterclasstjc2027juvenil" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">Inscribirme</a>
-                        </div>
-                    </div>
-                </div>
-            </article>
+                </article>
+            ))}
         </div>
 
-        <template id="details-operacion">
-            <p class="text-slate-600">¿Te imaginas participar en un “atraco artístico” colaborativo? Te invitamos a una experiencia práctica e inmersiva de creación plástica y escultura en gran formato. Un excéntrico coleccionista desea una de las icónicas figuras de los Juegos Diana y está dispuesto a pagar un alto monto por la misión. Los participantes conformarán un equipo de élite de artesanos y falsificadores para fabricar una réplica exacta a escala y realizar el “cambiazo”.</p>
-            <p class="text-slate-600">Esta propuesta rescata la iconografía de nuestro barrio y su patrimonio popular a través del juego y la experimentación, en colaboración con Escuela Meteoro.</p>
-            <h4 class="font-bold text-slate-900">¿Qué aprenderemos?</h4>
-            <ul class="list-disc pl-5 text-slate-600 space-y-1">
-                <li>Estructura, volumen y proporciones tridimensionales usando materiales reciclados.</li>
-                <li>Técnica tradicional de cartapesta y elaboración y aplicación de masilla o pasta de papel.</li>
-                <li>Creación de volumen fino, empates y texturas.</li>
-            </ul>
-            <h4 class="font-bold text-slate-900">Materiales y herramientas</h4>
-            <p class="text-slate-600">Insumos y herramientas incluidos. Para construir la estructura usaremos materiales de desecho: cartones, cajas, papeles, botellas y plástico. Te invitamos a traer reciclaje para armar el soporte; idealmente, trae también corta cartón y tijera.</p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600 space-y-2">
-                <p><strong class="text-slate-900">Fechas:</strong> martes 10 y viernes 13 de noviembre</p>
-                <p><strong class="text-slate-900">Horario:</strong> 18:30–21:00 hrs</p>
-                <p><strong class="text-slate-900">Modalidad:</strong> presencial</p>
-                <p><strong class="text-slate-900">Lugar:</strong> Escuela Meteoro, Serrano 686, Santiago</p>
-                <p><strong class="text-slate-900">Público:</strong> jóvenes y adultos desde los 18 años; no se necesita experiencia previa.</p>
-                <p><strong class="text-slate-900">Inversión:</strong> $0 CLP. Proyecto financiado por el Apoyo a Puntos de Cultura Comunitaria.</p>
-                <p><strong class="text-slate-900">Inscripción:</strong> formulario online.</p>
-            </div>
-            <a href="https://docs.google.com/forms/d/1YSTCj4w-20MuDShk1ExXzEXa8g82HX5VKeIn5T2O96Q/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center px-5 py-3 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800">Inscribirme en el taller</a>
-        </template>
+        {talleres.map((taller) => (
+            <template id={taller.detalleId}>
+                {taller.descripcion.map((parrafo) => <p class="text-slate-600">{parrafo}</p>)}
 
-        <template id="details-vocal-diciembre">
-            <p class="text-slate-600">Tu voz es un músculo y un instrumento. Como en cualquier disciplina deportiva o artística, los cambios reales y la resistencia requieren entrenamiento constante y buena técnica. Esta masterclass de 90 minutos es una sesión intensiva de prueba y aprendizaje de rutina: conocerás un método de trabajo corporal y vocal para entrenar tu voz de manera saludable, libre de tensiones y con proyección, e incorporar este hábito a tu práctica continua.</p>
-            <h4 class="font-bold text-slate-900">¿Qué vas a experimentar?</h4>
-            <ul class="list-disc pl-5 text-slate-600 space-y-1">
-                <li>Despertar y conciencia corporal: prepara tu cuerpo con caminata consciente, masajes de descompresión y dinámicas de movimiento para liberar tensiones.</li>
-                <li>Activación de resonadores: descubre dónde se amplifica tu sonido y cómo proyectarlo sin forzar la garganta.</li>
-                <li>Mecánica respiratoria y rutina vocal: ejercicios de respiración, glissandos y modulación para practicar en el día a día.</li>
-                <li>Canto colectivo y síntesis: vocalización guiada y canto en grupo en un ambiente seguro.</li>
-            </ul>
-            <p class="text-slate-600">Para canto, actuación, streaming, oratoria o simplemente cantar por gusto. Te llevarás una pauta de ejercicios y mayor toma de conciencia física para continuar entrenando de forma autónoma o continua. No necesitas experiencia previa ni conocimientos musicales.</p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600 space-y-2">
-                <p><strong class="text-slate-900">Fecha:</strong> jueves 10 de diciembre · una sesión</p>
-                <p><strong class="text-slate-900">Horario:</strong> 16:30–18:00 hrs</p>
-                <p><strong class="text-slate-900">Público:</strong> jóvenes de 13 a 17 años · 15 cupos</p>
-                <p><strong class="text-slate-900">Modalidad:</strong> presencial · masterclass de 90 minutos</p>
-                <p><strong class="text-slate-900">Lugar:</strong> Tap Jazz Center, Ricardo Matte Pérez 0145, Providencia, Santiago</p>
-                <p><strong class="text-slate-900">Llevar:</strong> ropa cómoda e hidratación</p>
-                <p><strong class="text-slate-900">Inversión:</strong> $11.000 CLP</p>
-            </div>
-            <p class="text-amber-800 text-sm"><strong>Importante:</strong> debes tener sesión en <a href="https://portaldisc.com" target="_blank" rel="noopener noreferrer" class="underline">Portaldisc.com</a> y seleccionar “Vocal Gym: entrenamiento para voz y canto | Martes | 05-01-2027 | 16:30 a 18:00 hrs”. La fecha descrita para este taller es jueves 10 de diciembre; confirma la fecha antes de inscribirte.</p>
-            <a href="https://www.portaldisc.com/evento/masterclasstjc2027juvenil" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center px-5 py-3 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800">Ver inscripción en Portaldisc</a>
-        </template>
+                {"aprendizajes" in taller && (
+                    <>
+                        <h4 class="font-bold text-slate-900">{taller.tituloAprendizajes}</h4>
+                        <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                            {taller.aprendizajes.map((aprendizaje) => (
+                                <li><strong>{aprendizaje.titulo}:</strong> {aprendizaje.descripcion}</li>
+                            ))}
+                        </ul>
+                    </>
+                )}
 
-        <template id="details-vocal-adulto">
-            <p class="text-slate-600">Tu voz es un músculo y un instrumento. Como en cualquier disciplina deportiva o artística, los cambios reales y la resistencia requieren entrenamiento constante y buena técnica. Esta masterclass de 90 minutos es una sesión intensiva de prueba y aprendizaje de rutina: conocerás un método de trabajo corporal y vocal para entrenar tu voz de manera saludable, libre de tensiones y con proyección, e incorporar este hábito a tu práctica continua.</p>
-            <h4 class="font-bold text-slate-900">¿Qué vas a experimentar?</h4>
-            <ul class="list-disc pl-5 text-slate-600 space-y-1">
-                <li>Despertar y conciencia corporal: prepara tu cuerpo con caminata consciente, masajes de descompresión y dinámicas de movimiento para liberar tensiones.</li>
-                <li>Activación de resonadores: descubre dónde se amplifica tu sonido y cómo proyectarlo sin forzar la garganta.</li>
-                <li>Mecánica respiratoria y rutina vocal: ejercicios de respiración, glissandos y modulación para practicar en el día a día.</li>
-                <li>Canto colectivo y síntesis: vocalización guiada y canto en grupo en un ambiente seguro.</li>
-            </ul>
-            <p class="text-slate-600">Para canto, actuación, streaming, oratoria o simplemente cantar por gusto. Te llevarás una pauta de ejercicios y mayor toma de conciencia física para continuar entrenando de forma autónoma o continua. No necesitas experiencia previa ni conocimientos musicales.</p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600 space-y-2">
-                <p><strong class="text-slate-900">Fecha:</strong> miércoles 16 de diciembre · una sesión</p>
-                <p><strong class="text-slate-900">Horario:</strong> 19:00–20:30 hrs</p>
-                <p><strong class="text-slate-900">Público:</strong> adulto · 15 cupos</p>
-                <p><strong class="text-slate-900">Modalidad:</strong> presencial · masterclass de 90 minutos</p>
-                <p><strong class="text-slate-900">Lugar:</strong> Tap Jazz Center, Ricardo Matte Pérez 0145, Providencia, Santiago</p>
-                <p><strong class="text-slate-900">Llevar:</strong> ropa cómoda e hidratación</p>
-                <p><strong class="text-slate-900">Inversión:</strong> $11.000 CLP</p>
-            </div>
-            <p class="text-amber-800 text-sm"><strong>Importante:</strong> debes tener sesión en <a href="https://portaldisc.com" target="_blank" rel="noopener noreferrer" class="underline">Portaldisc.com</a> y seleccionar “Vocal Gym: entrenamiento para voz y canto | Miércoles | 16-12-2026 | 19:00 a 20:30 hrs”.</p>
-            <a href="https://www.portaldisc.com/evento/masterclasstjc2027adulto" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center px-5 py-3 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800">Ver inscripción en Portaldisc</a>
-        </template>
+                {"experiencias" in taller && (
+                    <>
+                        <h4 class="font-bold text-slate-900">{taller.tituloExperiencias}</h4>
+                        <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                            {taller.experiencias.map((experiencia) => (
+                                <li><strong>{experiencia.titulo}:</strong> {experiencia.descripcion}</li>
+                            ))}
+                        </ul>
+                        <h4 class="font-bold text-slate-900">{taller.aplicacion}</h4>
+                        <p class="text-slate-600">{taller.aplicacionDescripcion}</p>
+                    </>
+                )}
 
-        <template id="details-vocal-enero">
-            <p class="text-slate-600">Tu voz es un músculo y un instrumento. Como en cualquier disciplina deportiva o artística, los cambios reales y la resistencia requieren entrenamiento constante y buena técnica. Esta masterclass de 90 minutos es una sesión intensiva de prueba y aprendizaje de rutina: conocerás un método de trabajo corporal y vocal para entrenar tu voz de manera saludable, libre de tensiones y con proyección, e incorporar este hábito a tu práctica continua.</p>
-            <h4 class="font-bold text-slate-900">¿Qué vas a experimentar?</h4>
-            <ul class="list-disc pl-5 text-slate-600 space-y-1">
-                <li>Despertar y conciencia corporal: prepara tu cuerpo con caminata consciente, masajes de descompresión y dinámicas de movimiento para liberar tensiones.</li>
-                <li>Activación de resonadores: descubre dónde se amplifica tu sonido y cómo proyectarlo sin forzar la garganta.</li>
-                <li>Mecánica respiratoria y rutina vocal: ejercicios de respiración, glissandos y modulación para practicar en el día a día.</li>
-                <li>Canto colectivo y síntesis: vocalización guiada y canto en grupo en un ambiente seguro.</li>
-            </ul>
-            <p class="text-slate-600">Para jóvenes que quieran dedicarse al canto, la actuación, el streaming, la oratoria o simplemente cantar por gusto. Esta sesión entrega una pauta de ejercicios y toma de conciencia física para seguir entrenando de forma autónoma o continua. No necesitas experiencia previa ni conocimientos musicales.</p>
-            <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600 space-y-2">
-                <p><strong class="text-slate-900">Fecha:</strong> martes 5 de enero de 2027 · una sesión</p>
-                <p><strong class="text-slate-900">Horario:</strong> 16:30–18:00 hrs</p>
-                <p><strong class="text-slate-900">Público:</strong> jóvenes de 13 a 17 años · 15 cupos</p>
-                <p><strong class="text-slate-900">Modalidad:</strong> presencial · masterclass de 90 minutos</p>
-                <p><strong class="text-slate-900">Lugar:</strong> Tap Jazz Center, Ricardo Matte Pérez 0145, Providencia, Santiago</p>
-                <p><strong class="text-slate-900">Llevar:</strong> ropa cómoda e hidratación</p>
-                <p><strong class="text-slate-900">Inversión:</strong> $11.000 CLP</p>
-            </div>
-            <p class="text-amber-800 text-sm"><strong>Importante:</strong> debes tener sesión en <a href="https://portaldisc.com" target="_blank" rel="noopener noreferrer" class="underline">Portaldisc.com</a> y seleccionar “Vocal Gym: entrenamiento para voz y canto | Martes | 05-01-2027 | 16:30 a 18:00 hrs”.</p>
-            <a href="https://www.portaldisc.com/evento/masterclasstjc2027juvenil" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center px-5 py-3 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800">Inscribirme en Portaldisc</a>
-        </template>
+                {"materialesYHerramientas" in taller && (
+                    <>
+                        <h4 class="font-bold text-slate-900">{taller.materialesYHerramientas.titulo}</h4>
+                        <ul class="list-disc pl-5 text-slate-600 space-y-1">
+                            {taller.materialesYHerramientas.indicaciones.map((indicacion) => (
+                                <li><strong>{indicacion.titulo}:</strong> {indicacion.descripcion}</li>
+                            ))}
+                        </ul>
+                    </>
+                )}
+
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600 space-y-2">
+                    <p><strong class="text-slate-900">Fechas:</strong> {taller.detalles.fechas}</p>
+                    <p><strong class="text-slate-900">Horario:</strong> {taller.detalles.horario}</p>
+                    {"materiales" in taller.detalles && <p><strong class="text-slate-900">Materiales:</strong> {taller.detalles.materiales}</p>}
+                    {"requisitosPrevios" in taller.detalles && <p><strong class="text-slate-900">Requisitos previos:</strong> {taller.detalles.requisitosPrevios}</p>}
+                    {"queLlevar" in taller.detalles && <p><strong class="text-slate-900">Qué llevar:</strong> {taller.detalles.queLlevar}</p>}
+                    <p><strong class="text-slate-900">Modalidad:</strong> {taller.detalles.modalidad}</p>
+                    <p><strong class="text-slate-900">Lugar:</strong> {taller.detalles.lugar}</p>
+                    {"publico" in taller.detalles && <p><strong class="text-slate-900">Público:</strong> {taller.detalles.publico}</p>}
+                    <p><strong class="text-slate-900">Cupos:</strong> {taller.cupos}</p>
+                    <p><strong class="text-slate-900">Inversión:</strong> {taller.detalles.inversion}</p>
+                </div>
+
+                <p class="text-orange-600">{taller.detalles.inscripcion.nota}</p>
+                {taller.detalles.inscripcion.url && (
+                    <a
+                        href={taller.detalles.inscripcion.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex justify-center px-5 py-3 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800"
+                    >
+                        Ver inscripción
+                    </a>
+                )}
+            </template>
+        ))}
 
         <div id="workshopDetailsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="workshopDetailsTitle" aria-hidden="true">
             <button type="button" class="modal-backdrop absolute inset-0 w-full h-full" aria-label="Cerrar detalles"></button>

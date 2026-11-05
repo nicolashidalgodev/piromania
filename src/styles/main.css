@@ -2,10 +2,7 @@
 @import "@fontsource-variable/plus-jakarta-sans";
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
-
-html {
-    scroll-behavior: smooth;
-}
+ 
 
 section[id] {
     scroll-margin-top: 5rem;

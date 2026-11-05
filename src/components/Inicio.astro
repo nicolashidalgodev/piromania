@@ -1,4 +1,8 @@
 
+---
+import { CONTENT } from "../data/content";
+---
+
 <section id="inicio" class="relative py-16 md:py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden">
     <div class="absolute top-10 left-10 w-72 h-72 bg-gp-pinkLight/60 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute top-40 right-10 w-96 h-96 bg-gp-sageLight/70 rounded-full blur-3xl pointer-events-none"></div>
@@ -6,31 +10,35 @@
         <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gp-lavenderLight border border-gp-lavender/40 text-slate-800 text-xs font-bold tracking-wide uppercase">
                 <span class="w-2 h-2 rounded-full bg-gp-lavender"></span>
-                Formación Arte y Escena — Santiago de Chile
+                {CONTENT.inicio.etiqueta}
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                Enciende tu <span class="relative inline-block px-2"><span class="absolute inset-0 bg-gp-yellowLight -rotate-1 rounded-lg -z-10"></span>fuego creador</span>
+                {CONTENT.inicio.titulo.principal} <span class="relative inline-block px-2"><span class="absolute inset-0 bg-gp-yellowLight -rotate-1 rounded-lg -z-10"></span>{CONTENT.inicio.titulo.destacado}</span>
             </h1>
             <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                Espacio de aprendizaje práctico e inmersivo en artes plásticas, expresión vocal y creatividad. Talleres diseñados para jóvenes y adultos que buscan explorar, entrenar o perfeccionar sus habilidades en distintas disciplinas creativas.
+                {CONTENT.inicio.descripcion}
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                <a href="#talleres" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-slate-900 text-white font-bold hover:bg-slate-800 text-center">Ver talleres disponibles</a>
-                <a href="#contacto" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gp-sageLight text-slate-800 font-bold border border-gp-sage/30 text-center">
-                    <i class="fa fa-commenting-o mr-2"></i>Consultar dudas
+                <a href={CONTENT.inicio.acciones[0].destino} class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-slate-900 text-white font-bold hover:bg-slate-800 text-center">{CONTENT.inicio.acciones[0].etiqueta}</a>
+                <a href={CONTENT.inicio.acciones[1].destino} class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-gp-sageLight text-slate-800 font-bold border border-gp-sage/30 text-center">
+                    <i class="fa fa-commenting-o mr-2"></i>{CONTENT.inicio.acciones[1].etiqueta}
                 </a>
             </div>
             <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-200 max-w-lg mx-auto lg:mx-0">
-                <div><div class="text-xl font-extrabold text-slate-900">Práctico</div><div class="text-xs text-slate-500">Aprender haciendo</div></div>
-                <div class="border-x border-slate-200 px-2"><div class="text-xl font-extrabold text-slate-900">Creativo</div><div class="text-xs text-slate-500">Experimentación</div></div>
+                {CONTENT.inicio.destacados.map((destacado, index) => (
+                    <div class={index === 1 ? "border-x border-slate-200 px-2" : ""}>
+                        <div class="text-xl font-extrabold text-slate-900">{destacado.titulo}</div>
+                        <div class="text-xs text-slate-500">{destacado.descripcion}</div>
+                    </div>
+                ))}
             </div>
         </div>
         <div class="lg:col-span-5">
             <div class="relative bg-white p-3 rounded-3xl border border-slate-200 soft-shadow max-w-md mx-auto">
-                <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80" alt="Materiales y obras en un taller artístico" class="w-full h-80 sm:h-96 object-cover rounded-2xl">
+                <img src={CONTENT.inicio.imagenPrincipal.src} alt={CONTENT.inicio.imagenPrincipal.alt} class="w-full h-80 sm:h-96 object-cover rounded-2xl">
                 <div class="absolute -bottom-5 -left-3 sm:-left-5 bg-white p-4 rounded-2xl border border-slate-200 shadow-xl flex items-center gap-3">
-                    <span class="w-10 h-10 rounded-xl bg-gp-pinkLight flex items-center justify-center text-pink-800"><i class="fa fa-magic"></i></span>
-                    <span><span class="text-xs text-slate-400 font-semibold uppercase block">Piromanía</span><span class="text-sm font-bold text-slate-800">Arte y expresión creativa</span></span>
+                    <span class="w-10 h-10 rounded-xl bg-gp-pinkLight flex items-center justify-center text-pink-800"><i class={`fa ${CONTENT.inicio.tarjetaImagen.icono}`}></i></span>
+                    <span><span class="text-xs text-slate-400 font-semibold uppercase block">{CONTENT.inicio.tarjetaImagen.marca}</span><span class="text-sm font-bold text-slate-800">{CONTENT.inicio.tarjetaImagen.descripcion}</span></span>
                 </div>
             </div>
         </div>

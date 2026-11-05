@@ -1,54 +1,34 @@
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
+document.addEventListener('DOMContentLoaded', () => {
 
-document.addEventListener('click', event => {
-    if (!(event.target instanceof Element)) return;
+    document.documentElement.classList.add('scroll-smooth');
 
-    const link = event.target.closest('a[href^="#"]');
-    if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-        return;
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    function toggleMobileMenu() {
+        mobileMenu?.classList.toggle('hidden');
     }
 
-    const target = document.getElementById(decodeURIComponent(link.hash.slice(1)));
-    if (!target) return;
+    mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
 
-    event.preventDefault();
-    history.pushState(null, '', link.hash);
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
-
-function toggleMobileMenu() {
-    mobileMenu?.classList.toggle('hidden');
-}
-
-mobileMenuBtn?.addEventListener('click', toggleMobileMenu);
-
-document.querySelectorAll('[data-mobile-menu-link]').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu?.classList.add('hidden');
-    });
-});
-
-function filterWorkshops(category) {
-    document.querySelectorAll('.filter-btn').forEach(button => {
-        const isActive = button.dataset.filterCategory === category;
-        button.classList.toggle('bg-slate-900', isActive);
-        button.classList.toggle('text-white', isActive);
-        button.classList.toggle('bg-white', !isActive);
-        button.classList.toggle('text-slate-700', !isActive);
+    document.querySelectorAll('[data-mobile-menu-link]').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu?.classList.add('hidden');
+        });
     });
 
-    document.querySelectorAll('.workshop-card').forEach(card => {
-        card.style.display = category === 'all' || card.dataset.category === category
-            ? 'flex'
-            : 'none';
+    document.querySelectorAll('[data-filter-category]').forEach(button => {
+        button.addEventListener('click', () => {
+            filterWorkshops(button.dataset.filterCategory);
+        });
     });
-}
 
-document.querySelectorAll('[data-filter-category]').forEach(button => {
-    button.addEventListener('click', () => {
-        filterWorkshops(button.dataset.filterCategory);
+    document.querySelectorAll('[data-workshop-details]').forEach(button => {
+        button.addEventListener('click', () => {
+            openWorkshopDetails(button.dataset.workshopDetails, button);
+        });
     });
+
 });
 
 const workshopDetailsModal = document.getElementById('workshopDetailsModal');
@@ -78,13 +58,77 @@ function openWorkshopDetails(templateId, trigger) {
     workshopDetailsModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     closeWorkshopDetailsButton?.focus();
+    
 }
 
-document.querySelectorAll('[data-workshop-details]').forEach(button => {
-    button.addEventListener('click', () => {
-        openWorkshopDetails(button.dataset.workshopDetails, button);
+const workshopCardAnimations = new WeakMap();
+
+function filterWorkshops(category) {
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        const isActive = button.dataset.filterCategory === category;
+        button.classList.toggle('bg-slate-900', isActive);
+        button.classList.toggle('text-white', isActive);
+        button.classList.toggle('bg-white', !isActive);
+        button.classList.toggle('text-slate-700', !isActive);
     });
-});
+
+    document.querySelectorAll('.workshop-card').forEach(card => {
+        const shouldShow = category === 'all' || card.dataset.category === category;
+        const previousAnimation = workshopCardAnimations.get(card);
+        if (previousAnimation) {
+            previousAnimation.animation.cancel();
+            card.style.transition = previousAnimation.originalTransition;
+            workshopCardAnimations.delete(card);
+        }
+
+        if (shouldShow) {
+            if (card.hidden) {
+                card.hidden = false;
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+                const originalTransition = card.style.transition;
+                card.style.transition = 'none';
+                const animation = card.animate(
+                    [
+                        { opacity: 0, transform: 'translateY(0.5rem) scale(0.98)' },
+                        { opacity: 1, transform: 'translateY(0) scale(1)' },
+                    ],
+                    { duration: 250, easing: 'ease-out' },
+                );
+                workshopCardAnimations.set(card, { animation, originalTransition });
+                animation.onfinish = () => {
+                    if (workshopCardAnimations.get(card)?.animation !== animation) return;
+                    card.style.transition = originalTransition;
+                    workshopCardAnimations.delete(card);
+                };
+            }
+            return;
+        }
+
+        if (card.hidden) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            card.hidden = true;
+            return;
+        }
+
+        const originalTransition = card.style.transition;
+        card.style.transition = 'none';
+        const animation = card.animate(
+            [
+                { opacity: 1, transform: 'translateY(0) scale(1)' },
+                { opacity: 0, transform: 'translateY(0.5rem) scale(0.98)' },
+            ],
+            { duration: 250, easing: 'ease-in' },
+        );
+        workshopCardAnimations.set(card, { animation, originalTransition });
+        animation.onfinish = () => {
+            if (workshopCardAnimations.get(card)?.animation !== animation) return;
+            card.hidden = true;
+            card.style.transition = originalTransition;
+            workshopCardAnimations.delete(card);
+        };
+    });
+}
 
 function closeWorkshopDetails() {
     if (!workshopDetailsModal || !workshopDetailsContent) return;
@@ -94,7 +138,7 @@ function closeWorkshopDetails() {
     workshopDetailsModal.setAttribute('aria-hidden', 'true');
     workshopDetailsContent.replaceChildren();
     document.body.style.overflow = '';
-    workshopDetailsTrigger?.focus();
+    workshopDetailsTrigger?.focus(); 
 }
 
 closeWorkshopDetailsButton?.addEventListener('click', closeWorkshopDetails);
@@ -104,21 +148,4 @@ document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && workshopDetailsModal && !workshopDetailsModal.classList.contains('hidden')) {
         closeWorkshopDetails();
     }
-});
-
-document.getElementById('contactForm')?.addEventListener('submit', event => {
-    event.preventDefault();
-    event.currentTarget.reset();
-
-    const toast = document.createElement('div');
-    toast.className = 'fixed bottom-6 right-6 bg-slate-900 text-white px-6 py-3.5 rounded-2xl shadow-2xl z-50 text-sm font-bold flex items-center gap-2';
-
-    const icon = document.createElement('i');
-    icon.className = 'fa fa-check-circle text-gp-sage';
-    toast.append(icon, document.createTextNode(' ¡Mensaje enviado con éxito!'));
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.remove();
-    }, 3500);
-});
+}); 

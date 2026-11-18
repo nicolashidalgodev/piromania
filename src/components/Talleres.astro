@@ -16,17 +16,19 @@ const estiloCategoria = (categoria: string) =>
             <span class="px-3 py-1 rounded-full bg-gp-sageLight text-emerald-800 text-xs font-bold uppercase tracking-wider">{CONTENT.talleres.encabezado.etiqueta}</span>
             <h2 class="mt-6 text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">{CONTENT.talleres.encabezado.titulo}</h2>
             <p class="text-slate-600">{CONTENT.talleres.encabezado.descripcion}</p>
-            <div class="flex flex-wrap justify-center gap-2 mt-8" id="filterContainer">
-                {CONTENT.talleres.filtros.map((filtro, index) => (
-                    <button
-                        type="button"
-                        class={`filter-btn px-4 py-2 rounded-full text-xs font-bold ${index === 0 ? "bg-slate-900 text-white" : "bg-white text-slate-700 border border-slate-200"}`}
-                        data-filter-category={filtro === "Todos" ? "all" : claveCategoria(filtro)}
-                    >
-                        {filtro}
-                    </button>
-                ))}
-            </div>
+            { CONTENT.talleres.filtros.length > 2 && (
+                <div class="flex flex-wrap justify-center gap-2 mt-8" id="filterContainer">
+                    {CONTENT.talleres.filtros.map((filtro, index) => (
+                        <button
+                            type="button"
+                            class={`filter-btn px-4 py-2 rounded-full text-xs font-bold ${index === 0 ? "bg-slate-900 text-white" : "bg-white text-slate-700 border border-slate-200"}`}
+                            data-filter-category={filtro === "Todos" ? "all" : claveCategoria(filtro)}
+                        >
+                            {filtro}
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="workshopsGrid">
@@ -81,7 +83,7 @@ const estiloCategoria = (categoria: string) =>
             <template id={taller.detalleId}>
                 {taller.descripcion.map((parrafo) => <p class="text-slate-600">{parrafo}</p>)}
 
-                {"aprendizajes" in taller && (
+                {/* {"aprendizajes" in taller && (
                     <>
                         <h4 class="font-bold text-slate-900">{taller.tituloAprendizajes}</h4>
                         <ul class="list-disc pl-5 text-slate-600 space-y-1">
@@ -90,7 +92,7 @@ const estiloCategoria = (categoria: string) =>
                             ))}
                         </ul>
                     </>
-                )}
+                )} */}
 
                 {"experiencias" in taller && (
                     <>
@@ -105,7 +107,7 @@ const estiloCategoria = (categoria: string) =>
                     </>
                 )}
 
-                {"materialesYHerramientas" in taller && (
+                {/* {"materialesYHerramientas" in taller && (
                     <>
                         <h4 class="font-bold text-slate-900">{taller.materialesYHerramientas.titulo}</h4>
                         <ul class="list-disc pl-5 text-slate-600 space-y-1">
@@ -114,7 +116,7 @@ const estiloCategoria = (categoria: string) =>
                             ))}
                         </ul>
                     </>
-                )}
+                )} */}
 
                 <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 text-sm text-slate-600 space-y-2">
                     <p><strong class="text-slate-900">Fechas:</strong> {taller.detalles.fechas}</p>

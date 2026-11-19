@@ -137,7 +137,7 @@ export const CONTENT = {
 						"Masterclass de 90 minutos para probar una rutina de trabajo corporal y vocal, y aprender a entrenar la voz de forma saludable, sin tensiones y con proyección.",
 					publicoBreve: "Adulto",
 					imagen: {
-						src: "/taller-vocal.jpg",
+						src: "/taller-vocal-adultos.jpeg",
 						alt: "Participantes en un taller de entrenamiento vocal",
 					},
 				},

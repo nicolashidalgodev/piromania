@@ -29,6 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    initGalleryCarousel();
+    initGalleryLightbox();
+
 });
 
 const workshopDetailsModal = document.getElementById('workshopDetailsModal');
@@ -148,4 +151,223 @@ document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && workshopDetailsModal && !workshopDetailsModal.classList.contains('hidden')) {
         closeWorkshopDetails();
     }
-}); 
+});
+
+function initGalleryCarousel() {
+    const track = document.querySelector('[data-gallery-track]');
+    const dots = Array.from(document.querySelectorAll('[data-gallery-dot]'));
+    const slides = track ? Array.from(track.querySelectorAll('[data-gallery-slide]')) : [];
+
+    if (!track || dots.length === 0 || slides.length === 0) return;
+
+    let frameRequested = false;
+
+    const setActive = activeIndex => {
+        dots.forEach((dot, index) => {
+            const isActive = index === activeIndex;
+            const indicator = dot.querySelector('[data-gallery-dot-indicator]');
+
+            dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+
+            if (!indicator) return;
+            indicator.classList.toggle('w-6', isActive);
+            indicator.classList.toggle('bg-slate-900', isActive);
+            indicator.classList.toggle('w-2.5', !isActive);
+            indicator.classList.toggle('bg-slate-300', !isActive);
+        });
+    };
+
+    const updateActive = () => {
+        frameRequested = false;
+
+        const trackRect = track.getBoundingClientRect();
+        const trackCenter = trackRect.left + trackRect.width / 2;
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        slides.forEach((slide, index) => {
+            const rect = slide.getBoundingClientRect();
+            const distance = Math.abs(rect.left + rect.width / 2 - trackCenter);
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        setActive(closestIndex);
+    };
+
+    const requestUpdate = () => {
+        if (frameRequested) return;
+        frameRequested = true;
+        requestAnimationFrame(updateActive);
+    };
+
+    track.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            const slide = slides[index];
+            if (!slide) return;
+
+            const delta = slide.getBoundingClientRect().left - track.getBoundingClientRect().left;
+            track.scrollTo({ left: track.scrollLeft + delta, behavior: 'smooth' });
+        });
+    });
+
+    const isScrollable = () => track.scrollWidth > track.clientWidth + 1;
+    const updateDraggableState = () => {
+        track.classList.toggle('is-draggable', isScrollable());
+    };
+
+    let isDragging = false;
+    let hasDragged = false;
+    let dragStartX = 0;
+    let dragStartScroll = 0;
+
+    const onDragMove = event => {
+        if (!isDragging) return;
+
+        const delta = event.clientX - dragStartX;
+        if (Math.abs(delta) > 5) hasDragged = true;
+        track.scrollLeft = dragStartScroll - delta;
+    };
+
+    const stopDragging = () => {
+        if (!isDragging) return;
+
+        isDragging = false;
+        track.classList.remove('is-dragging');
+        document.removeEventListener('mousemove', onDragMove);
+        document.removeEventListener('mouseup', stopDragging);
+    };
+
+    track.addEventListener('mousedown', event => {
+        if (event.button !== 0 || !isScrollable()) return;
+
+        isDragging = true;
+        hasDragged = false;
+        dragStartX = event.clientX;
+        dragStartScroll = track.scrollLeft;
+        track.classList.add('is-dragging');
+        document.addEventListener('mousemove', onDragMove);
+        document.addEventListener('mouseup', stopDragging);
+        event.preventDefault();
+    });
+
+    track.addEventListener('dragstart', event => event.preventDefault());
+
+    track.addEventListener('click', event => {
+        if (!hasDragged) return;
+
+        hasDragged = false;
+        event.preventDefault();
+        event.stopPropagation();
+    }, true);
+
+    window.addEventListener('resize', updateDraggableState);
+    updateDraggableState();
+
+    updateActive();
+}
+
+function initGalleryLightbox() {
+    const lightbox = document.getElementById('galleryLightbox');
+    const image = lightbox?.querySelector('[data-gallery-lightbox-image]');
+    const caption = lightbox?.querySelector('[data-gallery-lightbox-caption]');
+    const counter = lightbox?.querySelector('[data-gallery-lightbox-counter]');
+    const closeButton = lightbox?.querySelector('[data-gallery-close-button]');
+    const prevButton = lightbox?.querySelector('[data-gallery-prev]');
+    const nextButton = lightbox?.querySelector('[data-gallery-next]');
+    const triggers = Array.from(document.querySelectorAll('[data-gallery-open]'));
+
+    if (!lightbox || !image || triggers.length === 0) return;
+
+    let currentIndex = 0;
+    let lastTrigger = null;
+
+    const show = index => {
+        currentIndex = (index + triggers.length) % triggers.length;
+
+        const slide = triggers[currentIndex].closest('[data-gallery-slide]');
+        const slideImage = slide?.querySelector('img');
+        if (!slideImage) return;
+
+        image.src = slideImage.currentSrc || slideImage.src;
+        image.alt = slideImage.alt;
+
+        if (caption) {
+            const slideCaption = slide.querySelector('figcaption')?.textContent?.trim();
+            caption.textContent = slideCaption || slideImage.alt;
+        }
+
+        if (counter) {
+            counter.textContent = `${currentIndex + 1} / ${triggers.length}`;
+        }
+    };
+
+    const open = index => {
+        lastTrigger = triggers[index] || null;
+        show(index);
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        closeButton?.focus();
+    };
+
+    const close = () => {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        lastTrigger?.focus();
+    };
+
+    triggers.forEach((trigger, index) => {
+        trigger.addEventListener('click', () => open(index));
+    });
+
+    prevButton?.addEventListener('click', () => show(currentIndex - 1));
+    nextButton?.addEventListener('click', () => show(currentIndex + 1));
+
+    lightbox.querySelectorAll('[data-gallery-close]').forEach(element => {
+        element.addEventListener('click', close);
+    });
+
+    document.addEventListener('keydown', event => {
+        if (lightbox.classList.contains('hidden')) return;
+
+        if (event.key === 'Escape') {
+            close();
+        } else if (event.key === 'ArrowLeft') {
+            show(currentIndex - 1);
+        } else if (event.key === 'ArrowRight') {
+            show(currentIndex + 1);
+        }
+    });
+
+    let swipeStart = null;
+
+    lightbox.addEventListener('pointerdown', event => {
+        swipeStart = { x: event.clientX, y: event.clientY };
+    });
+
+    lightbox.addEventListener('pointerup', event => {
+        if (!swipeStart) return;
+
+        const deltaX = event.clientX - swipeStart.x;
+        const deltaY = event.clientY - swipeStart.y;
+        swipeStart = null;
+
+        if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+        show(currentIndex + (deltaX < 0 ? 1 : -1));
+    });
+
+    lightbox.addEventListener('pointercancel', () => {
+        swipeStart = null;
+    });
+}
+

@@ -1,45 +1,149 @@
+---
+import { CONTENT } from "../data/content";
+
+const { etiqueta, titulo, descripcion, imagenes } = CONTENT.resultados;
+---
+
 <section id="galeria" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-12">
                 <span class="px-3 py-1 rounded-full bg-gp-mint text-teal-900 text-xs font-bold uppercase tracking-wider">
-                    Resultados Reales
+                    {etiqueta}
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">Trabajo de Nuestros Alumnos</h2>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">{titulo}</h2>
                 <p class="text-slate-600">
-                    Proyectos finalizados durante nuestros talleres sin necesidad de experiencia previa.
+                    {descripcion}
                 </p>
             </div>
 
-            <!-- Gallery Masonry/Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
-                    <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
-                        Pintura & Texturas
-                    </div>
+            <div class="relative">
+                <div
+                    data-gallery-track
+                    class="gallery-track flex gap-4 overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-4 md:overflow-visible"
+                    role="region"
+                    aria-label="Galería de trabajos de alumnos"
+                >
+                    {imagenes.map((imagen, index) => (
+                        <figure
+                            data-gallery-slide
+                            class="group relative h-64 w-full shrink-0 snap-center overflow-hidden rounded-2xl border border-slate-200 md:w-auto"
+                        >
+                            <button
+                                type="button"
+                                data-gallery-open={index}
+                                class="block w-full h-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gp-sage"
+                                aria-label={`Ampliar imagen: ${imagen.etiqueta}`}
+                            >
+                                <img
+                                    src={imagen.src}
+                                    alt={imagen.alt}
+                                    loading={index === 0 ? "eager" : "lazy"}
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                >
+                            </button>
+                            <figcaption class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-900/70 via-slate-900/10 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
+                                {imagen.etiqueta}
+                            </figcaption>
+                        </figure>
+                    ))}
                 </div>
 
-                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
-                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
-                        Escultura de Busto
-                    </div>
-                </div>
-
-                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
-                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
-                        Acuarela Conceptual
-                    </div>
-                </div>
-
-                <div class="relative group overflow-hidden rounded-2xl h-64 border border-slate-200">
-                    <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80" alt="Obra Alumno 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 text-white text-xs font-bold">
-                        Detalle Prótesis FX
-                    </div>
+                <div class="mt-2 flex justify-center md:hidden" data-gallery-dots>
+                    {imagenes.map((imagen, index) => (
+                        <button
+                            type="button"
+                            data-gallery-dot
+                            class="-my-2 flex items-center px-1 py-2"
+                            aria-label={`Ir a ${imagen.etiqueta}`}
+                            aria-current={index === 0 ? "true" : "false"}
+                        >
+                            <span
+                                data-gallery-dot-indicator
+                                class={`block h-2.5 rounded-full transition-all ${index === 0 ? "w-6 bg-slate-900" : "w-2.5 bg-slate-300"}`}
+                            ></span>
+                        </button>
+                    ))}
                 </div>
             </div>
 
         </div>
+
+        <div
+            id="galleryLightbox"
+            class="fixed inset-0 z-[60] hidden items-center justify-center p-4 sm:p-8"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Vista ampliada de la galería"
+            aria-hidden="true"
+        >
+            <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-sm" data-gallery-close></div>
+
+            <button
+                type="button"
+                data-gallery-close
+                data-gallery-close-button
+                class="fixed right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+                <i class="fa fa-times" aria-hidden="true"></i>
+                <span class="sr-only">Cerrar</span>
+            </button>
+
+            <div class="relative z-10 flex max-h-full w-full max-w-5xl flex-col items-center">
+                <figure class="flex w-full flex-col items-center">
+                    <img
+                        data-gallery-lightbox-image
+                        src={imagenes[0].src}
+                        alt=""
+                        draggable="false"
+                        class="max-h-[75vh] w-auto max-w-full rounded-xl object-contain shadow-2xl"
+                    >
+                    <figcaption
+                        data-gallery-lightbox-caption
+                        class="mt-4 text-center text-sm font-medium text-white"
+                    ></figcaption>
+                    <p
+                        data-gallery-lightbox-counter
+                        class="mt-1 text-xs font-bold tracking-wider text-white/60"
+                    ></p>
+                </figure>
+            </div>
+
+            <button
+                type="button"
+                data-gallery-prev
+                class="fixed left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white sm:left-4"
+            >
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                <span class="sr-only">Imagen anterior</span>
+            </button>
+            <button
+                type="button"
+                data-gallery-next
+                class="fixed right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white sm:right-4"
+            >
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                <span class="sr-only">Imagen siguiente</span>
+            </button>
+        </div>
     </section>
+
+<style>
+    .gallery-track {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .gallery-track::-webkit-scrollbar {
+        display: none;
+    }
+
+    .gallery-track.is-draggable {
+        cursor: grab;
+    }
+
+    .gallery-track.is-dragging {
+        cursor: grabbing;
+        scroll-snap-type: none;
+        user-select: none;
+    }
+</style>

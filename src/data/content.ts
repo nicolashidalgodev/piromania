@@ -98,7 +98,7 @@ export const CONTENT = {
 						"Masterclass de 90 minutos para probar una rutina de trabajo corporal y vocal, y aprender a entrenar la voz de forma saludable, sin tensiones y con proyección.",
 					publicoBreve: "13-17 años",
 					imagen: {
-						src: "/taller-vocal.jpg",
+						src: "/taller-vocal-jovenes.jpeg",
 						alt: "Participantes en un taller de entrenamiento vocal",
 					},
 				},
@@ -248,6 +248,59 @@ export const CONTENT = {
 				mes: "ENE 2027",
 				dias: "05",
 				color: "yellow",
+			},
+		],
+	},
+	resultados: {
+		etiqueta: "Resultados Reales",
+		titulo: "Trabajo de Nuestros Alumnos",
+		descripcion:
+			"Proyectos finalizados durante nuestros talleres sin necesidad de experiencia previa.",
+		imagenes: [
+			{
+				src: "/galeria/galeria-01.jpeg",
+				alt: "Alumnas trabajando en la estructura de papel maché",
+				etiqueta: "Construcción en papel maché",
+			},
+			{
+				src: "/galeria/galeria-02.jpeg",
+				alt: "Alumnas dando forma a la cabeza de un canguro en papel maché",
+				etiqueta: "Estructura del canguro",
+			},
+			{
+				src: "/galeria/galeria-03.jpeg",
+				alt: "Manos cubiertas de pasta dando forma al rostro de la escultura",
+				etiqueta: "Tallado del rostro",
+			},
+			{
+				src: "/galeria/galeria-04.jpeg",
+				alt: "Escultura de canguro en proceso sobre una mesa de trabajo",
+				etiqueta: "Base de la escultura",
+			},
+			{
+				src: "/galeria/galeria-05.jpeg",
+				alt: "Alumnos ensamblando la escultura sobre un taburete azul",
+				etiqueta: "Montaje de la escultura",
+			},
+			{
+				src: "/galeria/galeria-06.jpeg",
+				alt: "Alumnos mezclando materiales para preparar el engrudo",
+				etiqueta: "Preparación del engrudo",
+			},
+			{
+				src: "/galeria/galeria-07.jpeg",
+				alt: "Alumna pintando el rostro amarillo de la escultura",
+				etiqueta: "Pintura del rostro",
+			},
+			{
+				src: "/galeria/galeria-08.jpeg",
+				alt: "Alumnos pintando y dando acabado a la escultura de canguro",
+				etiqueta: "Acabado y pintura",
+			},
+			{
+				src: "/galeria/galeria-09.jpeg",
+				alt: "Afiche del taller Operación Juegos Diana con registro fotográfico",
+				etiqueta: "Proyecto Operación Juegos Diana",
 			},
 		],
 	},

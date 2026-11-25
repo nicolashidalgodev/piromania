@@ -151,7 +151,7 @@ export const CONTENT = {
 				aplicacionDescripcion: MENSAJE_VOCAL_GYM,
 				detalles: {
 					fechas: "Miércoles 16 de diciembre (1 Sesión)",
-					horario: "19:00 - 20:30 hrs",
+					horario: "19:00 - 22:30 hrs",
 					requisitosPrevios:
 						"¡Ninguno! No necesitas experiencia previa ni conocimientos musicales.",
 					queLlevar: "Ropa cómoda que te permita moverte e hidratación.",
@@ -160,7 +160,7 @@ export const CONTENT = {
 					inversion: "$11.000 CLP",
 					inscripcion: {
 						url: "https://www.portaldisc.com/evento/masterclasstjc2027adulto",
-						nota: "Importante: debes tener sesión en Portaldisc.com y seleccionar “Vocal Gym: entrenamiento para voz y canto | Miércoles | 16-12-2026 | 19:00 a 20:30 hrs”",
+						nota: "Importante: debes tener sesión en Portaldisc.com y seleccionar “Vocal Gym: entrenamiento para voz y canto | Miércoles | 16-12-2026 | 19:00 a 22:30 hrs”",
 					},
 				},
 			},
@@ -236,7 +236,7 @@ export const CONTENT = {
 			{
 				tallerId: "vocal-gym-adulto-diciembre",
 				titulo: "Vocal Gym: Voz y Canto (Adulto)",
-				resumen: "Miércoles · 19:00-20:30 hrs",
+				resumen: "Miércoles · 19:00-22:30 hrs",
 				mes: "DIC",
 				dias: "16",
 				color: "lavender",
